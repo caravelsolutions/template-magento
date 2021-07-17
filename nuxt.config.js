@@ -64,7 +64,7 @@ export default {
   loading: { color: '#fff' },
   plugins: [
    {
-      src: '~/plugins/bonavuenture',
+      src: '~/plugins/bonaventure',
       ssr: false,
     },
     {
