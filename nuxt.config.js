@@ -64,6 +64,10 @@ export default {
   },
   loading: { color: '#fff' },
   plugins: [
+   {
+      src: '~/plugins/bonaventure',
+      ssr: false,
+    },
     {
       src: '~/plugins/domPurify.js',
       ssr: false,
@@ -71,9 +75,12 @@ export default {
   ],
   buildModules: [
     // to core
-    '@nuxt/typescript-build',
+    ['@nuxt/typescript-build', {
+      typeCheck: false,
+    }],
     '@nuxtjs/style-resources',
     '@nuxtjs/pwa',
+    '@nuxtjs/tailwindcss',
     ['@vue-storefront/nuxt', {
       useRawSource: {
         dev: [
@@ -149,12 +156,15 @@ export default {
     },
   },
   styleResources: {
-    scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })],
+    scss: [
+      require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] }),
+    ],
   },
   build: {
+    cache: true,
     babel: {
       plugins: [
-        ['@babel/plugin-proposal-private-methods', { loose: true }],
+        ['@babel/plugin-proposal-private-methods', { loose: true }]
       ],
     },
     transpile: [
@@ -169,7 +179,16 @@ export default {
         }),
       }),
     ],
-    extend(config, ctx) {
+    postcss: {
+      plugins: {
+        'postcss-import': {},
+        'postcss-url': {},
+        'postcss-preset-env': {
+          features: { 'nesting-rules': false }
+        },
+      },
+    },
+     extend(config, ctx) {
       // eslint-disable-next-line no-param-reassign
       config.devtool = ctx.isClient ? 'eval-source-map' : 'inline-source-map';
 
