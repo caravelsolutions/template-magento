@@ -11,6 +11,7 @@ const {
         tax,
         defaultStore,
         websites,
+        facets,
       },
     },
   },
@@ -104,6 +105,7 @@ export default {
       tax,
       defaultStore,
       websites,
+      facets,
     }],
   ],
   modules: [
@@ -165,6 +167,18 @@ export default {
         ['@babel/plugin-proposal-private-methods', { loose: true }]
       ],
     },
+    transpile: [
+      'vee-validate/dist/rules',
+    ],
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.VERSION': JSON.stringify({
+          // eslint-disable-next-line global-require
+          version: require('./package.json').version,
+          lastCommit: process.env.LAST_COMMIT || '',
+        }),
+      }),
+    ],
     postcss: {
       plugins: {
         'postcss-import': {},
@@ -174,11 +188,12 @@ export default {
         },
       },
     },
-    extend(config, ctx) {
+     extend(config, ctx) {
       // eslint-disable-next-line no-param-reassign
       config.devtool = ctx.isClient ? 'eval-source-map' : 'inline-source-map';
 
       if (ctx && ctx.isClient) {
+        // eslint-disable-next-line no-param-reassign
         config.optimization = {
           ...config.optimization,
           mergeDuplicateChunks: true,
@@ -198,28 +213,11 @@ export default {
                   .match(/[/\\]node_modules[/\\](.*?)([/\\]|$)/)[1]
                   .replace(/[.@_]/gm, '')}`,
               },
-              graphql: {
-                test: /[/\\]node_modules[/\\](apollo-cache-inmemory|apollo-client|graphql|apollo-link|apollo-link-context|apollo-link-http|apollo-link-ws|apollo-utilities)[/\\]/,
-                name: 'graphql',
-                reuseExistingChunk: true,
-              },
             },
           },
         };
       }
     },
-    transpile: [
-      'vee-validate/dist/rules',
-    ],
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.VERSION': JSON.stringify({
-          // eslint-disable-next-line global-require
-          version: require('./package.json').version,
-          lastCommit: process.env.LAST_COMMIT || '',
-        }),
-      }),
-    ],
   },
   router: {
     extendRoutes(routes) {
