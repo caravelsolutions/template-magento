@@ -83,16 +83,11 @@ export default {
     '@nuxtjs/tailwindcss',
     ['@vue-storefront/nuxt', {
       useRawSource: {
-        dev: [
-          '@vue-storefront/magento',
-          '@vue-storefront/core',
-        ],
-        prod: [
-          '@vue-storefront/magento',
-          '@vue-storefront/core',
-        ],
-      },
-    }],
+        dev: ['@vue-storefront/magento', '@vue-storefront/core'],
+        prod: ['@vue-storefront/magento', '@vue-storefront/core']
+      }
+    }
+    ],
     ['@vue-storefront/nuxt-theme', {
       routes: false,
     }],
@@ -156,9 +151,7 @@ export default {
     },
   },
   styleResources: {
-    scss: [
-      require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] }),
-    ],
+    scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })],
   },
   build: {
     cache: true,
