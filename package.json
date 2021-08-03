@@ -24,7 +24,7 @@
     "update:update": "ncu -u"
   },
   "dependencies": {
-    "@caravelsolutions/bonaventure": "1.0.0-beta.14",
+    "@caravelx/bonaventure": "1.0.0-beta.1",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/style-resources": "^1.2.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
