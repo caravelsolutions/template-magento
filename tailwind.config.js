@@ -1,18 +1,11 @@
-const BonaventureConfig = require('@caravelsolutions/bonaventure/tailwind.config')
+const BonaventureConfig = require('@caravelx/bonaventure/tailwind.config')
 
 module.exports = {
   mode: 'jit',
   theme: {
-    ...BonaventureConfig.theme,
-    colors: {
-      ...BonaventureConfig.theme.colors,
-    },
-  },
-  variantOrder: [
-    ...BonaventureConfig.variantOrder,
-  ],
-  variants: {
-    ...BonaventureConfig.variants,
+    extend: {
+      ...BonaventureConfig.theme.extend,
+    }
   },
   plugins: [
     require('@tailwindcss/typography'),
