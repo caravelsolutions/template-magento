@@ -35,6 +35,7 @@
           <SfButton
             v-e2e="'app-header-account'"
             class="sf-button--pure sf-header__action"
+            aria-label="Open account button"
             @click="handleAccountClick"
           >
             <SfIcon
@@ -43,7 +44,9 @@
             />
           </SfButton>
           <SfButton
+            v-if="isAuthenticated"
             class="sf-button--pure sf-header__action"
+            aria-label="Toggle wishlist sidebar"
             @click="toggleWishlistSidebar"
           >
             <SfIcon
@@ -55,6 +58,7 @@
           <SfButton
             v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
+            aria-label="Toggle cart sidebar"
             @click="toggleCartSidebar"
           >
             <SfIcon
@@ -88,6 +92,7 @@
             <SfButton
               v-if="!!term"
               class="sf-search-bar__button sf-button--pure"
+              aria-label="Close search"
               @click="closeOrFocusSearchBar"
             >
               <span class="sf-search-bar__icon">
@@ -101,6 +106,7 @@
             <SfButton
               v-else
               class="sf-search-bar__button sf-button--pure"
+              aria-label="Open search"
               @click="isSearchOpen ? isSearchOpen = false : isSearchOpen = true"
             >
               <span class="sf-search-bar__icon">
@@ -125,7 +131,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import {
   SfHeader,
   SfImage,
@@ -134,6 +140,8 @@ import {
   SfBadge,
   SfSearchBar,
   SfOverlay,
+  SfMenuItem,
+  SfLink,
 } from '@storefront-ui/vue';
 import {
   cartGetters,
@@ -178,6 +186,8 @@ export default defineComponent({
     SfSearchBar,
     SearchResults,
     SfOverlay,
+    SfMenuItem,
+    SfLink,
   },
   directives: { clickOutside },
   setup() {
@@ -229,7 +239,7 @@ export default defineComponent({
         loadCart(),
         loadWishlist(),
         categoriesListSearch({
-          pageSize: 100,
+          pageSize: 20,
         }),
       ]);
     });
@@ -247,10 +257,10 @@ export default defineComponent({
       await Promise.all([
         productsSearch({
           itemsPerPage: 12,
-          term: term.value as string,
+          term: term.value,
         }),
         categoriesSearch({
-          term: term.value as string,
+          term: term.value,
         }),
       ]);
 
@@ -297,6 +307,7 @@ export default defineComponent({
       getAgnosticCatLink,
       handleAccountClick,
       handleSearch,
+      isAuthenticated,
       isMobile,
       isSearchOpen,
       removeSearchResults,
